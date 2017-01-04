@@ -1,3 +1,6 @@
 #File with changes I'd like to implement going forward.
 #Will eventually find proper way to use GitHub for this.
 scrumboard.txt
+
+#Compiled daemon
+netg-d
