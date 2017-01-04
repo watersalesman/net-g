@@ -1,0 +1,10 @@
+[Unit]
+Description=Net-G
+After=network-online.target
+PartOf=network-online.target
+
+[Service]
+ExecStart=/usr/bin/netg-d
+
+[Install]
+WantedBy=network-online.target
