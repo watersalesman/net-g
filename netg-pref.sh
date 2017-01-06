@@ -1,5 +1,5 @@
 #!/bin/bash
-conffolder="$HOME/.config/netg"
+conffolder="/etc/netg"
 conffile="$conffolder/netg.conf"
 
 echo This will overwrite any credentials
@@ -28,5 +28,5 @@ echo $email > "$conffile"
 echo $pass >> "$conffile"
 echo $checktime >> "$conffile"
 echo $device >> "$conffile"
-echo > $conffolder/ip.info
-chmod -R 700 $conffolder
+touch $conffolder/ip.info
+chmod -R 600 $conffolder
