@@ -68,30 +68,35 @@ def main():
         return -1
 
     #Check ip.info for network info
-    #If there is no file, we will set currentip as blank and create a file later
+    #If there is no file, we will set previnfo as blank and create a file later
     try:
         with open(ipInfoPath, 'r') as ipInfoRead:
-            currentip = ipInfoRead.read()
+            previnfo = ipInfoRead.read()
     except FileNotFoundError:
-        currentip = ''
+        previnfo = ''
+
+    #Get current network info to use for comparison
+    currentinfo = "Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip')
+    currentinfo += "\n" + pseudoGrep(getCommandOutput('ifconfig'), 'inet')
 
     #If ip.info does not match the current status of 'ifconfig'
-    if currentip != pseudoGrep(getCommandOutput('ifconfig'), 'inet'):
+    if previnfo != currentinfo:
         try:
             #Authenticate Gmail credentials
             gmail = Gmail(email, passw)
             gmail.authenticate()
+
             #Send the Public IP and output from 'ifconfig'
-            networkinfo = "Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip')
-            networkinfo += "\n\n" + getCommandOutput('ifconfig')
-            gmail.sendEmail(gmail.getLogin(), networkinfo, device)
+            emailbody = "Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip')
+            emailbody += "\n\n" + getCommandOutput('ifconfig')
+            gmail.sendEmail(gmail.getLogin(), emailbody, device)
             gmail.quitServer()
             print('Sleeping...')
+
             #Write current network info to ip.info for future checks
             with open(ipInfoPath, 'w') as ipinfo:
-                ipinfo.write('Public IP: ' + getCommandOutput('curl -s https://now-dns.com/ip'))
-                ipinfo.write("\n")
-                ipinfo.write(pseudoGrep(getCommandOutput('ifconfig'), 'inet'))
+                ipinfo.write("Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip'))
+                ipinfo.write("\n" + pseudoGrep(getCommandOutput('ifconfig'), 'inet'))
         except:
             print('Failed to authenticate')
             print('Sleeping...')
