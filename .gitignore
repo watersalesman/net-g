@@ -4,3 +4,6 @@ scrumboard.txt
 
 #Compiled daemon
 netg-d
+
+#Any vim swap files
+*.swp
