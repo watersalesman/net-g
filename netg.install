@@ -1,14 +1,16 @@
 #!/bin/bash
-user="userpc"
-systemctl stop netg.service
-systemctl disable netg.service
+systemctl stop netg.service > /dev/null
+systemctl disable netg.service > /dev/null
 cp netg.service /usr/lib/systemd/system/netg.service
 cp netg-d /usr/bin/netg-d
 cp netg-pref.sh /usr/bin/netg-pref
 cp netg.py /usr/bin/netg
-chmod +x /usr/bin/netg
+chmod +x /usr/bin/netg-d
 chmod +x /usr/bin/netg-pref
-chmod 755 /usr/bin/netg*
+chmod +x /usr/bin/netg
+chmod 744 /usr/bin/netg-d
+chmod 744 /usr/bin/netg-pref
+chmod 744 /usr/bin/netg
 echo
 echo Use 'netg' command
 echo Enable netg.service to start daemon at startup.

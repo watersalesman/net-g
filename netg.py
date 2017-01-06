@@ -51,17 +51,17 @@ class Gmail():
         print('Sent!\n')
 
 def main():
-    ipInfoPath = '/home/userpc/.config/netg/ip.info'
+    ipInfoPath = '/etc/netg/ip.info'
 
     try:
-        with open('/home/userpc/.config/netg/netg.conf', 'r') as config:
+        with open('/etc/netg/netg.conf', 'r') as config:
             email = config.readline()[:-1]
             passw = config.readline()[:-1]
             config.readline()
             device = config.readline()[:-1]
     except FileNotFoundError:
         print('No configuration file was found. Please run "netg-pref".')
-        print('Exiting...')
+        print('Sleeping...')
         return -1
 
     try:
@@ -81,7 +81,7 @@ def main():
                 ipinfo.write(pseudoGrep(getCommandOutput('ifconfig'), 'inet'))
         except:
             print('Failed to authenticate')
-
+            print('Sleeping...')
     else:
         print('No changes detected.')
         print('Sleeping...')

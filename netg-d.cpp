@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
 	//Declare some variables
-	string confpath = "/home/userpc/.config/netg/netg.conf";
+	string confpath = "/etc/netg/netg.conf";
 	string sleeptime;
 	string line;
 	ifstream configFile (confpath);
