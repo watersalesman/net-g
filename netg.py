@@ -31,7 +31,7 @@ class Gmail():
     def getServer(self):
         return self._server
 
-    def authenticateGmail(self):
+    def authenticate(self):
         print('\nAuthenticating...')
         self._server.ehlo()
         print('Greeted server successfully')
@@ -51,8 +51,11 @@ class Gmail():
         print('Sent!\n')
 
 def main():
+
+    #File that will be checked for changes
     ipInfoPath = '/etc/netg/ip.info'
 
+    #Read from config file
     try:
         with open('/etc/netg/netg.conf', 'r') as config:
             email = config.readline()[:-1]
@@ -64,20 +67,30 @@ def main():
         print('Sleeping...')
         return -1
 
+    #Check ip.info for network info
+    #If there is no file, we will set currentip as blank and create a file later
     try:
         with open(ipInfoPath, 'r') as ipInfoRead:
             currentip = ipInfoRead.read()
     except FileNotFoundError:
         currentip = ''
 
+    #If ip.info does not match the current status of 'ifconfig'
     if currentip != pseudoGrep(getCommandOutput('ifconfig'), 'inet'):
         try:
+            #Authenticate Gmail credentials
             gmail = Gmail(email, passw)
-            gmail.authenticateGmail()
-            gmail.sendEmail(gmail.getLogin(), getCommandOutput('ifconfig'), device)
+            gmail.authenticate()
+            #Send the Public IP and output from 'ifconfig'
+            networkinfo = "Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip')
+            networkinfo += "\n\n" + getCommandOutput('ifconfig')
+            gmail.sendEmail(gmail.getLogin(), networkinfo, device)
             gmail.quitServer()
             print('Sleeping...')
+            #Write current network info to ip.info for future checks
             with open(ipInfoPath, 'w') as ipinfo:
+                ipinfo.write('Public IP: ' + getCommandOutput('curl -s https://now-dns.com/ip'))
+                ipinfo.write("\n")
                 ipinfo.write(pseudoGrep(getCommandOutput('ifconfig'), 'inet'))
         except:
             print('Failed to authenticate')
