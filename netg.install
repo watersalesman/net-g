@@ -2,9 +2,9 @@
 systemctl stop netg.service > /dev/null
 systemctl disable netg.service > /dev/null
 cp netg.service /usr/lib/systemd/system/netg.service
-cp netg-d /usr/bin/netg-d
 cp netg-pref.sh /usr/bin/netg-pref
 cp netg.py /usr/bin/netg
+g++ -o /usr/bin/netg-d netg-d.cpp
 chmod +x /usr/bin/netg-d
 chmod +x /usr/bin/netg-pref
 chmod +x /usr/bin/netg
