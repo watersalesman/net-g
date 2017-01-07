@@ -11,7 +11,7 @@ int main() {
 	string line;
 	ifstream configFile (confpath);
 
-	//Read time in between checks form config file
+	//Read how long to sleep between checks from config file
 	if( configFile.is_open() ) {
 		int counter = 1;
 		while (getline (configFile,line)) {
