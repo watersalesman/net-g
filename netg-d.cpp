@@ -31,13 +31,9 @@ int main() {
 	string sleepstring	= "sleep " + sleeptime;
 	const char *sleepcommand = sleepstring.c_str();
 
-	//Begin daemon
-	//These messages will only be seen if the daemon is run directly
-	//Otherwise, the systemd log will only show output from netg.py
+	//Main loop
 	while( true ) {
-		cout << "DAEMON: Running netg...";
 		system("netg");
-		cout << "DAEMON: Sleeping...";
 		system(sleepcommand);
 	}
 
