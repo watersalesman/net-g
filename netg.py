@@ -95,8 +95,7 @@ def main():
 
             #Write current network info to ip.info for future checks
             with open(ipInfoPath, 'w') as ipinfo:
-                ipinfo.write("Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip'))
-                ipinfo.write("\n" + pseudoGrep(getCommandOutput('ifconfig'), 'inet'))
+                ipinfo.write(currentinfo)
         except:
             print('Failed to authenticate')
             print('Sleeping...')
