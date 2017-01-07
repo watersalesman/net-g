@@ -20,7 +20,7 @@ sudo sh netg.install
 
 Afterward, configure Net-G by running:
 ```
-netg-pref
+sudo netg-pref
 ```
 
 *The Gmail account and password will be saved as plaintext in the config file.* Although the file is only accessible by root, consider creating an account or using a junk account for security purposes. The config file will be stored as */etc/netg/netg.conf*
