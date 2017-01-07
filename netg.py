@@ -98,6 +98,7 @@ def main():
                 ipinfo.write(currentinfo)
         except:
             print('Failed to authenticate')
+            print('Check your internet connection and ensure that your Gmail credentials are correct.')
             print('Sleeping...')
     else:
         print('No changes detected.')
