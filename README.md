@@ -45,4 +45,4 @@ Or you can run the following for single uses:
 sudo netg
 ```
 
-To uninstall simply run the *netg-install.sh* as root.
+To uninstall simply run the *netg-install.sh* script as root.
