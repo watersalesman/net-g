@@ -15,7 +15,7 @@ Then run:
 ```
 git clone https://github.com/watersalesman/net-g.git
 cd net-g
-sudo sh netg.install
+sudo sh netg-install.sh
 ```
 
 Afterward, configure Net-G by running:
@@ -44,3 +44,5 @@ Or you can run the following for single uses:
 ```
 sudo netg
 ```
+
+To uninstall simply run the *netg-install.sh* as root.
