@@ -1,5 +1,7 @@
 Net-G
 ==
+NOTE: This program is easily replaced by using a Dynamic DNS service and having it point to a private IP address. This was something I used before figuring this out. I simply fleshed it out to get practice with GitHub and maintaining software through this platform. One may, however, wish to use this in place for security reasons as you would not be making private network information public but other than that, a DDNS service and ddclient would be much more convenient.
+
 Net-G is a daemon that will send system network information such as IP addresses to the user via a Gmail account. This is useful when it is necessary to know a device's IP address but static IPs and dynamic DNS are not an option, e.g. college campus or other shared network.
 
 The Python script will use your Gmail account to send an email to itself, containing your public IP address and the output of *ifconfig*.
