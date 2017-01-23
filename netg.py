@@ -3,16 +3,16 @@ import smtplib
 import shlex
 from subprocess import Popen, PIPE
 
-def getCommandOutput(command):
+def get_command_output(command):
     args = shlex.split(command)
     process = Popen(args, stdout=PIPE)
-    rawOut = process.communicate()[0]
-    return rawOut.decode('utf-8')
+    raw_out = process.communicate()[0]
+    return raw_out.decode('utf-8')
 
-def pseudoGrep(text, filterStr):
+def pseudo_grep(text, filter_string):
     output = ''
     for line in text.split("\n"):
-        if filterStr in line:
+        if filter_string in line:
             output += line + "\n"
     return output
 
@@ -22,13 +22,13 @@ class Gmail():
         self._pw = pw
         self._server = smtplib.SMTP('smtp.gmail.com:587')
 
-    def getLogin(self):
+    def get_login(self):
         return self._login
 
-    def getPw(self):
+    def get_pw(self):
         return self._pw
 
-    def getServer(self):
+    def get_server(self):
         return self._server
 
     def authenticate(self):
@@ -37,23 +37,23 @@ class Gmail():
         print('Greeted server successfully')
         self._server.starttls()
         print('Started TLS')
-        self._server.login(self.getLogin(), self.getPw())
+        self._server.login(self.get_login(), self.get_pw())
         print('Logged in!')
 
-    def quitServer(self):
+    def quit_server(self):
         self._server.quit()
 
-    def sendEmail(self, toaddr,msg, subject):
-        fromaddr = self.getLogin()
+    def send_email(self, to_addr,msg, subject):
+        from_addr = self.get_login()
         message = 'Subject: %s\n\n%s' % (subject, msg)
         print('\nSending email...')
-        self._server.sendmail(fromaddr, toaddr, message)
+        self._server.sendmail(from_addr, to_addr, message)
         print('Sent!\n')
 
 def main():
 
     #File that will be checked for changes
-    ipInfoPath = '/etc/netg/ip.info'
+    ip_info_path = '/etc/netg/ip.info'
 
     #Read from config file
     try:
@@ -68,37 +68,38 @@ def main():
         return -1
 
     #Check ip.info for network info
-    #If there is no file, we will set previnfo as blank and create a file later
+    #If there is no file, we will set prev_info as blank and create a file later
     try:
-        with open(ipInfoPath, 'r') as ipInfoRead:
-            previnfo = ipInfoRead.read()
+        with open(ip_info_path, 'r') as ip_info_file:
+            prev_info = ip_info_file.read()
     except FileNotFoundError:
-        previnfo = ''
+        prev_info = ''
 
     #Get current network info to use for comparison
-    currentinfo = "Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip')
-    currentinfo += "\n" + pseudoGrep(getCommandOutput('ifconfig'), 'inet')
+    current_info = "Public IP: " + get_command_output('curl -s https://now-dns.com/ip')
+    current_info += "\n" + pseudo_grep(get_command_output('ifconfig'), 'inet')
 
     #If ip.info does not match the current status of 'ifconfig'
-    if previnfo != currentinfo:
+    if prev_info != current_info:
         try:
             #Authenticate Gmail credentials
             gmail = Gmail(email, passw)
             gmail.authenticate()
 
             #Send the Public IP and output from 'ifconfig'
-            emailbody = "Public IP: " + getCommandOutput('curl -s https://now-dns.com/ip')
-            emailbody += "\n\n" + getCommandOutput('ifconfig')
-            gmail.sendEmail(gmail.getLogin(), emailbody, device)
-            gmail.quitServer()
+            email_body = "Public IP: " + get_command_output('curl -s https://now-dns.com/ip')
+            email_body += "\n\n" + get_command_output('ifconfig')
+            gmail.send_email(gmail.get_login(), email_body, device)
+            gmail.quit_server()
             print('Sleeping...')
 
             #Write current network info to ip.info for future checks
-            with open(ipInfoPath, 'w') as ipinfo:
-                ipinfo.write(currentinfo)
+            with open(ip_info_path, 'w') as ip_info:
+                ip_info.write(current_info)
         except:
             print('Failed to authenticate')
-            print('Check your internet connection and ensure that your Gmail credentials are correct.')
+            print('Check your internet connection and ensure \
+                    that your Gmail credentials are correct.')
             print('Sleeping...')
     else:
         print('No changes detected.')
