@@ -24,6 +24,7 @@ Afterward, configure Net-G by running:
 ```
 sudo netg-pref
 ```
+To uninstall simply run the *netg-uninstall.sh* script as root.
 
 *The Gmail account and password will be saved as plaintext in the config file.* Although the file is only accessible by root, consider creating an account or using a junk account for security purposes. The config file will be stored as */etc/netg/netg.conf*
 
@@ -46,5 +47,3 @@ Or you can run the following for single uses:
 ```
 sudo netg
 ```
-
-To uninstall simply run the *netg-install.sh* script as root.
