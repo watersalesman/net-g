@@ -28,13 +28,13 @@ To uninstall simply run the *netg-uninstall.sh* script as root.
 
 *The Gmail account and password will be saved as plaintext in the config file.* Although the file is only accessible by root, consider creating an account or using a junk account for security purposes. The config file will be stored as */etc/netg/netg.conf*
 
-Writen for Arch Linux at the momement. However, it is simple enough that you should be able to make it work on another distro by just changing the method of service startup. I will still continue to work on making it more proper and compatible with other distros.
+Writen for Arch Linux at the momement. However, it is simple enough that you should be able to make it work on other \*nix systems by just changing the method of service startup and possibly other minor tweaks.
 
 Usage
 --
 You can activate the systemd service *netg.service* to have it run on startup.
 
-Example for Arch:
+Example for distros with systemd:
 ```
 #Enable netg.service
 sudo systemctl enable netg
